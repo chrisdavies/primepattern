@@ -20,6 +20,18 @@
 
         modValue: function () {
             return parseInt(this.formulaMod().value);
+        },
+
+        processingIndicator: function () {
+            return document.getElementsByClassName('processing-indicator').item(0);
+        },
+
+        showProcessing: function () {
+            this.processingIndicator().classList.add('active');
+        },
+
+        hideProcessing: function () {
+            this.processingIndicator().classList.remove('active');
         }
     },
 
@@ -53,10 +65,15 @@
     },
 
     loadAndRefresh: function () {
-        this.loadDataset(primes.ui.datasetNumber()).then(function (res) {
-            primes.dataset = res.data;
-            primes.render(primes.ui.modValue(), primes.dataset);
-        });
+        primes.ui.showProcessing();
+
+        setTimeout(function () {
+            primes.loadDataset(primes.ui.datasetNumber()).then(function (res) {
+                primes.dataset = res.data;
+                primes.render(primes.ui.modValue(), primes.dataset);
+                primes.ui.hideProcessing();
+            });
+        }, 10);
     }
 };
 
@@ -103,7 +120,11 @@
     });
 
     primes.ui.formulaMod().addEventListener('change', function () {
-        primes.render(primes.ui.modValue(), primes.dataset);
+        primes.ui.showProcessing();
+        setTimeout(function () {
+            primes.render(primes.ui.modValue(), primes.dataset);
+            primes.ui.hideProcessing();
+        }, 10);
     });
 })();
 
