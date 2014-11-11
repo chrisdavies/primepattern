@@ -45,7 +45,7 @@
         var ctx = primes.ui.canvasElement().getContext('2d'),
             firstPrime = dataset[0],
             width = mod,
-            height = (dataset[dataset.length - 1] - firstPrime) / mod;
+            height = Math.min(((dataset[dataset.length - 1] - firstPrime) / mod), 32767);
 
         ctx.canvas.width = width;
         ctx.canvas.height = height;
