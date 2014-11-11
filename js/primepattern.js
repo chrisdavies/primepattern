@@ -36,7 +36,7 @@
     },
 
     loadDataset: function (datasetNumber) {
-        return Alite.get('/sets/primes' + datasetNumber + '.js');
+        return Alite.get('sets/primes' + datasetNumber + '.js');
     },
 
     render: function (mod, dataset) {
