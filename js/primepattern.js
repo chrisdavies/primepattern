@@ -27,14 +27,25 @@
 
     render: function (mod, dataset) {
         var ctx = primes.ui.canvas().getContext('2d'),
+            firstPrime = dataset[0],
             width = mod,
-            height = (dataset[dataset.length - 1] - dataset[0]) / mod;
+            height = (dataset[dataset.length - 1] - firstPrime) / mod;
 
         ctx.canvas.width = width;
         ctx.canvas.height = height;
                 
         ctx.fillStyle = '#222';
         ctx.fillRect(0, 0, width, height);
+
+        ctx.fillStyle = '#FFF';
+
+        for (var i = 0; i < dataset.length; ++i) {
+            var prime = dataset[i] - firstPrime,
+                x = prime % mod,
+                y = Math.ceil(prime / mod);
+
+            ctx.fillRect(x, y, 1, 1);
+        }
     },
 
     initialize: function () {
