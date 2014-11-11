@@ -2,6 +2,8 @@
 
 A simple rendering of the prime number sequence. Interesting pattern.
 
+The magic number seems to be 210. I've used a multiple of it (1260) to show the pattern more clearly.
+
 [View it here](http://chrisdavies.github.io/primepattern/)
 
 ### License
