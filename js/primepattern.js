@@ -2,24 +2,24 @@
     dataset: [],
 
     ui: {
-        datasetDropdown: function () {
+        datasetDropdownElement: function () {
             return document.getElementsByClassName('dataset-dropdown').item(0);
         },
 
-        canvas: function () {
+        canvasElement: function () {
             return document.getElementsByTagName('canvas').item(0);
         },
 
-        formulaMod: function () {
+        formulaModElement: function () {
             return document.getElementsByClassName('formula-mod').item(0);
         },
 
         datasetNumber: function () {
-            return parseInt(this.datasetDropdown().value);
+            return parseInt(this.datasetDropdownElement().value);
         },
 
         modValue: function () {
-            return parseInt(this.formulaMod().value);
+            return parseInt(this.formulaModElement().value);
         },
 
         processingIndicator: function () {
@@ -42,7 +42,7 @@
     render: function (mod, dataset) {
         if (!mod || !dataset) return;
 
-        var ctx = primes.ui.canvas().getContext('2d'),
+        var ctx = primes.ui.canvasElement().getContext('2d'),
             firstPrime = dataset[0],
             width = mod,
             height = (dataset[dataset.length - 1] - firstPrime) / mod;
@@ -56,9 +56,9 @@
         ctx.fillStyle = '#FFF';
 
         for (var i = 0; i < dataset.length; ++i) {
-            var prime = dataset[i] - firstPrime,
+            var prime = dataset[i],
                 x = prime % mod,
-                y = Math.ceil(prime / mod);
+                y = Math.ceil((prime - firstPrime) / mod);
 
             ctx.fillRect(x, y, 1, 1);
         }
@@ -74,58 +74,59 @@
                 primes.ui.hideProcessing();
             });
         }, 10);
+    },
+
+    initialize: function () {
+        function numericSuffix(i) {
+            var suffix = 'th';
+
+            if (i < 4 || i > 20) {
+                var mod = i % 10;
+                if (mod == 1) {
+                    suffix = 'st';
+                } else if (mod == 2) {
+                    suffix = 'nd';
+                } else if (mod == 3) {
+                    suffix = 'rd';
+                }
+            }
+
+            return suffix;
+        }
+
+        function makeOption(i) {
+            return '<option value="' + i + '">' + i + numericSuffix(i) + '</option>';
+        }
+
+        function initializeDropdown() {
+            var options = [],
+                i = 0;
+
+            while (options.length < 50) {
+                options.push(makeOption(++i));
+            }
+
+            primes.ui.datasetDropdownElement().innerHTML = options.join('');
+        }
+
+        function handleInput() {
+            primes.ui.datasetDropdownElement().addEventListener('change', function () {
+                primes.loadAndRefresh();
+            });
+
+            primes.ui.formulaModElement().addEventListener('change', function () {
+                primes.ui.showProcessing();
+                setTimeout(function () {
+                    primes.render(primes.ui.modValue(), primes.dataset);
+                    primes.ui.hideProcessing();
+                }, 10);
+            });
+        }
+
+        initializeDropdown();
+        handleInput();
+        this.loadAndRefresh();
     }
 };
 
-(function initializeDatasetDropdown() {
-
-    function numericSuffix(i) {
-        var suffix = 'th';
-
-        if (i < 4 || i > 20) {
-            var mod = i % 10;
-            if (mod == 1) {
-                suffix = 'st';
-            } else if (mod == 2) {
-                suffix = 'nd';
-            } else if (mod == 3) {
-                suffix = 'rd';
-            }
-        }
-
-        return suffix;
-    }
-
-    function makeOption(i) {
-        return '<option value="' + i + '">' + i + numericSuffix(i) + '</option>';
-    }
-
-    function initializeDropdown() {
-        var options = [],
-            i = 0;
-
-        while (options.length < 50) {
-            options.push(makeOption(++i));
-        }
-
-        primes.ui.datasetDropdown().innerHTML = options.join('');
-    }
-
-    initializeDropdown();
-})();
-
-(function handleInput() {
-    primes.ui.datasetDropdown().addEventListener('change', function () {
-        primes.loadAndRefresh();
-    });
-
-    primes.ui.formulaMod().addEventListener('change', function () {
-        primes.ui.showProcessing();
-        setTimeout(function () {
-            primes.render(primes.ui.modValue(), primes.dataset);
-            primes.ui.hideProcessing();
-        }, 10);
-    });
-})();
-
-primes.loadAndRefresh();
+primes.initialize();
