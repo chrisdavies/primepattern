@@ -1,0 +1,47 @@
+﻿body {
+    font-size: 1em;
+    line-height: 1.5em;
+    font-family: sans-serif;
+    color: #333;
+}
+
+input {
+    border: 1px solid #AAA;
+    padding: 0.25em;
+    border-radius: 0.15em;
+}
+
+.options {
+    padding: 1.5em;
+    border-bottom: 1px solid #DDD;
+}
+
+.legend-group,
+.formula-group,
+.dataset-group {
+    display: inline-block;
+    margin-right: 2em;
+}
+
+.composite-legend,
+.prime-legend {
+    display: inline-block;
+    margin-right: 1.5em;
+    vertical-align: middle;
+}
+
+.composite-legend:before, 
+.prime-legend:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    margin: -0.25em 0.5em 0 0;
+    border: 1px solid #DDD;
+    width: 0.75em;
+    height: 0.75em;
+    background: #FFF;
+}
+
+.composite-legend:before {
+    background: #333;
+}
