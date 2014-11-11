@@ -58,7 +58,7 @@
         for (var i = 0; i < dataset.length; ++i) {
             var prime = dataset[i],
                 x = prime % mod,
-                y = Math.ceil((prime - firstPrime) / mod);
+                y = Math.floor((prime - firstPrime) / mod) + 1;
 
             ctx.fillRect(x, y, 1, 1);
         }
