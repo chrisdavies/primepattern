@@ -2,7 +2,4 @@
 
 A simple rendering of the prime number sequence. Interesting pattern.
 
-TODO:
-
-* cleanup
-* publish
+[View it here](http://chrisdavies.github.io/primepattern/)
