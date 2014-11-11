@@ -1,4 +1,21 @@
-﻿(function initializeDatasetDropdown() {
+﻿var primes = {
+    ui: {
+        datasetDropdown: function () {
+            return document.getElementsByClassName('dataset-dropdown').item(0);
+        },
+
+        canvas: function () {
+            return document.getElementsByTagName('canvas').item(0);
+        },
+
+        formulaMod: function () {
+            return document.getElementsByClassName('formula-mod').item(0);
+        }
+    }
+};
+
+
+(function initializeDatasetDropdown() {
 
     function numericSuffix(i) {
         var suffix = 'th';
@@ -29,7 +46,7 @@
             options.push(makeOption(++i));
         }
 
-        $('.dataset-dropdown').html(options.join(''));
+        primes.ui.datasetDropdown().innerHTML = options.join('');
     }
 
     initializeDropdown();
@@ -37,7 +54,7 @@
 
 
 (function initializeCanvas() {
-    var canvas = document.getElementsByTagName('canvas').item(0),
+    var canvas = primes.ui.canvas(),
         ctx = canvas.getContext('2d'),
         width = canvas.width,
         height = canvas.height;
