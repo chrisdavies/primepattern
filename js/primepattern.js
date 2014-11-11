@@ -43,9 +43,10 @@
         if (!mod || !dataset) return;
 
         var ctx = primes.ui.canvasElement().getContext('2d'),
+            maxCanvasHeight = 32767,
             firstPrime = dataset[0],
             width = mod,
-            height = Math.min(((dataset[dataset.length - 1] - firstPrime) / mod), 32767);
+            height = Math.min(((dataset[dataset.length - 1] - firstPrime) / mod), maxCanvasHeight);
 
         ctx.canvas.width = width;
         ctx.canvas.height = height;
