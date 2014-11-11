@@ -1,4 +1,6 @@
 ﻿var primes = {
+    dataset: [],
+
     ui: {
         datasetDropdown: function () {
             return document.getElementsByClassName('dataset-dropdown').item(0);
@@ -26,6 +28,8 @@
     },
 
     render: function (mod, dataset) {
+        if (!mod || !dataset) return;
+
         var ctx = primes.ui.canvas().getContext('2d'),
             firstPrime = dataset[0],
             width = mod,
@@ -48,9 +52,10 @@
         }
     },
 
-    initialize: function () {
+    loadAndRefresh: function () {
         this.loadDataset(primes.ui.datasetNumber()).then(function (res) {
-            primes.render(primes.ui.modValue(), res.data);
+            primes.dataset = res.data;
+            primes.render(primes.ui.modValue(), primes.dataset);
         });
     }
 };
@@ -92,4 +97,14 @@
     initializeDropdown();
 })();
 
-primes.initialize();
+(function handleInput() {
+    primes.ui.datasetDropdown().addEventListener('change', function () {
+        primes.loadAndRefresh();
+    });
+
+    primes.ui.formulaMod().addEventListener('change', function () {
+        primes.render(primes.ui.modValue(), primes.dataset);
+    });
+})();
+
+primes.loadAndRefresh();
