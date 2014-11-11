@@ -34,3 +34,14 @@
 
     initializeDropdown();
 })();
+
+
+(function initializeCanvas() {
+    var canvas = document.getElementsByTagName('canvas').item(0),
+        ctx = canvas.getContext('2d'),
+        width = canvas.width,
+        height = canvas.height;
+
+    ctx.fillStyle = '#222';
+    ctx.fillRect(0, 0, width, height);
+})();

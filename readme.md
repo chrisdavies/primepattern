@@ -7,3 +7,4 @@ TODO:
 * load dataset w/ 'loading' indicator
 * rendering logic
 * respond to input changes
+* dynamically resize canvas...
