@@ -10,10 +10,39 @@
 
         formulaMod: function () {
             return document.getElementsByClassName('formula-mod').item(0);
+        },
+
+        datasetNumber: function () {
+            return parseInt(this.datasetDropdown().value);
+        },
+
+        modValue: function () {
+            return parseInt(this.formulaMod().value);
         }
+    },
+
+    loadDataset: function (datasetNumber) {
+        return Alite.get('/sets/primes' + datasetNumber + '.js');
+    },
+
+    render: function (mod, dataset) {
+        var ctx = primes.ui.canvas().getContext('2d'),
+            width = mod,
+            height = (dataset[dataset.length - 1] - dataset[0]) / mod;
+
+        ctx.canvas.width = width;
+        ctx.canvas.height = height;
+                
+        ctx.fillStyle = '#222';
+        ctx.fillRect(0, 0, width, height);
+    },
+
+    initialize: function () {
+        this.loadDataset(primes.ui.datasetNumber()).then(function (res) {
+            primes.render(primes.ui.modValue(), res.data);
+        });
     }
 };
-
 
 (function initializeDatasetDropdown() {
 
@@ -52,13 +81,4 @@
     initializeDropdown();
 })();
 
-
-(function initializeCanvas() {
-    var canvas = primes.ui.canvas(),
-        ctx = canvas.getContext('2d'),
-        width = canvas.width,
-        height = canvas.height;
-
-    ctx.fillStyle = '#222';
-    ctx.fillRect(0, 0, width, height);
-})();
+primes.initialize();
